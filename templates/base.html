@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Keepereaters{% endblock %}</title>
+    <link rel="icon" type="image/svg+xml" href="{% static 'planner/favicon.svg' %}">
     <script>
         (function () {
             const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -19,7 +20,10 @@
     <div class="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(29,78,216,0.12),_transparent_30%),linear-gradient(180deg,#fff7ed_0%,#ffffff_45%,#f8fafc_100%)]">
         <header class="border-b border-black/5 bg-white/80 backdrop-blur">
             <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-                <a href="{% url 'home' %}" class="font-display text-3xl font-bold tracking-tight text-cherry">Keepereaters</a>
+                <a href="{% url 'home' %}" class="flex items-center gap-3">
+                    <span class="logo-mark">K</span>
+                    <span class="font-display text-3xl font-bold tracking-tight text-cherry">Keepereaters</span>
+                </a>
                 <nav class="flex items-center gap-3 text-sm font-semibold">
                     <a class="rounded-full px-3 py-2 hover:bg-slate-100" href="{% url 'home' %}">Home</a>
                     {% if request.user.is_authenticated %}

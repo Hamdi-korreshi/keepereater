@@ -16,7 +16,7 @@ from .utils import build_shopping_list, calorie_totals, month_bounds, week_bound
 
 
 def home(request):
-    return render(request, "planner/home.html")
+    return render(request, "planner/home.html", {"smiling_people_image": None})
 
 
 def signup(request):
