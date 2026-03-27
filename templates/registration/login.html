@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Log In | Keepereaters{% endblock %}
+
+{% block content %}
+<div class="mx-auto max-w-xl rounded-[2rem] bg-white p-8 shadow-sm ring-1 ring-black/5">
+    <h1 class="font-display text-4xl font-bold text-ink">Welcome back</h1>
+    <p class="mt-2 text-slate-600">Log in to manage your cookbook, calendar, and grocery lists.</p>
+    <form method="post" class="mt-6 space-y-5">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <label class="block">
+                <span class="mb-2 block text-sm font-semibold text-slate-700">{{ field.label }}</span>
+                {{ field }}
+                {% if field.errors %}<span class="mt-1 block text-sm text-red-600">{{ field.errors|join:", " }}</span>{% endif %}
+            </label>
+        {% endfor %}
+        <button class="btn w-full bg-cherry text-white hover:bg-rose-900">Log In</button>
+    </form>
+    <p class="mt-6 text-sm text-slate-600">Need an account? <a class="font-semibold text-skyline" href="{% url 'signup' %}">Sign up here</a>.</p>
+</div>
+{% endblock %}

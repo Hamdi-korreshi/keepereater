@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up | Keepereaters{% endblock %}
+
+{% block content %}
+<div class="mx-auto max-w-2xl rounded-[2rem] bg-white p-8 shadow-sm ring-1 ring-black/5">
+    <h1 class="font-display text-4xl font-bold text-ink">Create your account</h1>
+    <p class="mt-2 text-slate-600">You’ll get your private meal planner plus 4 starter recipes immediately.</p>
+    <form method="post" class="mt-6 grid gap-5 sm:grid-cols-2">
+        {% csrf_token %}
+        {% for field in form %}
+            <label class="block {% if field.name == 'password1' or field.name == 'password2' %}sm:col-span-2{% endif %}">
+                <span class="mb-2 block text-sm font-semibold text-slate-700">{{ field.label }}</span>
+                {{ field }}
+                {% if field.help_text %}<span class="mt-1 block text-xs text-slate-500">{{ field.help_text|safe }}</span>{% endif %}
+                {% if field.errors %}<span class="mt-1 block text-sm text-red-600">{{ field.errors|join:", " }}</span>{% endif %}
+            </label>
+        {% endfor %}
+        <button class="btn sm:col-span-2 bg-cherry text-white hover:bg-rose-900">Create Account</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Grocery List | Keepereaters{% endblock %}
+
+{% block content %}
+<section class="space-y-6">
+    <div class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-black/5">
+        <h1 class="font-display text-4xl font-bold">Create Grocery List</h1>
+        <p class="mt-2 max-w-3xl text-slate-600">Ingredients with the same normalized name and unit are combined together. Anything without a clean quantity or unit stays in a manual review list so nothing gets lost.</p>
+        <form method="get" class="mt-6 grid gap-4 md:grid-cols-[1fr_1fr_auto]">
+            {% for field in form %}
+                <label class="block">
+                    <span class="mb-2 block text-sm font-semibold text-slate-700">{{ field.label }}</span>
+                    {{ field }}
+                    {% if field.errors %}<span class="mt-1 block text-sm text-red-600">{{ field.errors|join:", " }}</span>{% endif %}
+                </label>
+            {% endfor %}
+            <button class="btn self-end bg-cherry text-white hover:bg-rose-900">Generate</button>
+        </form>
+    </div>
+
+    <div class="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
+        <div class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-black/5">
+            <div class="flex items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold">Combined Shopping List</h2>
+                    <p class="text-sm text-slate-500">Use copy to move this straight into notes or your phone.</p>
+                </div>
+                <button class="btn border-slate-300 bg-white" data-copy-target="grocery-copy-source">Copy</button>
+            </div>
+            <div id="grocery-copy-source" class="mt-5 space-y-3">
+                {% for item in combined_items %}
+                    <div class="rounded-2xl bg-slate-50 px-4 py-3">{{ item.display }}</div>
+                {% empty %}
+                    <p class="text-slate-500">Choose a date range to build your list.</p>
+                {% endfor %}
+                {% for item in manual_items %}
+                    <div class="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">{{ item }}</div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-black/5">
+            <h2 class="text-2xl font-bold">Meals Included</h2>
+            <div class="mt-5 space-y-3">
+                {% for entry in selected_entries %}
+                    <div class="rounded-2xl bg-slate-50 px-4 py-3">
+                        <p class="font-semibold">{{ entry.date }} · {{ entry.slot_label }}</p>
+                        <p class="text-sm text-slate-600">{{ entry.recipe.title }} x{{ entry.quantity }}</p>
+                    </div>
+                {% empty %}
+                    <p class="text-slate-500">No meals in the selected range yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,105 @@
+input,
+select,
+textarea {
+    width: 100%;
+}
+
+.recipe-card {
+    display: flex;
+    min-height: 24rem;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 1.75rem;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+}
+
+.recipe-card--snack {
+    background: linear-gradient(180deg, #dcfce7 0%, #ffffff 40%);
+}
+
+.recipe-card--entree {
+    background: linear-gradient(180deg, #dbeafe 0%, #ffffff 40%);
+}
+
+.recipe-card--dessert {
+    background: linear-gradient(180deg, #ffe4e6 0%, #ffffff 40%);
+}
+
+.recipe-card__image-wrap {
+    height: 13rem;
+    background: rgba(15, 23, 42, 0.04);
+}
+
+.recipe-card__image,
+.recipe-card__placeholder {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.recipe-card__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #9f1239, #1d4ed8);
+    font-size: 4rem;
+    font-weight: 700;
+    color: white;
+}
+
+.calendar-day {
+    min-height: 10rem;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    background: #fff;
+    padding: 0.9rem;
+}
+
+.calendar-day--muted {
+    background: rgba(248, 250, 252, 0.75);
+    color: #94a3b8;
+}
+
+.calendar-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #1d4ed8, #0f172a);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.macro-bar {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 999px;
+    background: #f8fafc;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+}
+
+.macro-pie {
+    width: 12rem;
+    height: 12rem;
+    margin: 1rem auto 0;
+    border-radius: 999px;
+    background:
+        conic-gradient(
+            #1d4ed8 0 calc((var(--carbs) / (var(--carbs) + var(--fat) + var(--protein))) * 1turn),
+            #9f1239 calc((var(--carbs) / (var(--carbs) + var(--fat) + var(--protein))) * 1turn) calc(((var(--carbs) + var(--fat)) / (var(--carbs) + var(--fat) + var(--protein))) * 1turn),
+            #15803d calc(((var(--carbs) + var(--fat)) / (var(--carbs) + var(--fat) + var(--protein))) * 1turn) 1turn
+        );
+    position: relative;
+}
+
+.macro-pie::after {
+    content: "";
+    position: absolute;
+    inset: 22%;
+    border-radius: 999px;
+    background: white;
+}

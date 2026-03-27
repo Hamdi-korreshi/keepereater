@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+@source "../../templates";
+@source "../../planner";
+
+@theme {
+    --color-cherry: #9f1239;
+    --color-skyline: #1d4ed8;
+    --color-meadow: #15803d;
+    --color-cream: #fef7ed;
+    --color-ink: #172033;
+    --font-display: Georgia, serif;
+    --font-body: ui-sans-serif, system-ui, sans-serif;
+}

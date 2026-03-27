@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Delete | Keepereaters{% endblock %}
+
+{% block content %}
+<div class="mx-auto max-w-xl rounded-[2rem] bg-white p-8 shadow-sm ring-1 ring-black/5">
+    <h1 class="font-display text-4xl font-bold">Delete {{ kind }}</h1>
+    <p class="mt-3 text-slate-600">This action removes <strong>{{ object }}</strong>.</p>
+    <form method="post" class="mt-6 flex gap-3">
+        {% csrf_token %}
+        <button class="btn bg-red-600 text-white hover:bg-red-700">Delete</button>
+        <a href="javascript:history.back()" class="btn border-slate-300 bg-white">Cancel</a>
+    </form>
+</div>
+{% endblock %}

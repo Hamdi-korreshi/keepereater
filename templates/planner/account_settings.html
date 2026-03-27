@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Account Settings | Keepereaters{% endblock %}
+
+{% block content %}
+<section class="grid gap-6 xl:grid-cols-2">
+    <div class="rounded-[2rem] bg-white p-8 shadow-sm ring-1 ring-black/5">
+        <h1 class="font-display text-4xl font-bold">Account</h1>
+        <p class="mt-2 text-slate-600">Update the email tied to your planner.</p>
+        <form method="post" class="mt-6 space-y-5">
+            {% csrf_token %}
+            {% for field in account_form %}
+                <label class="block">
+                    <span class="mb-2 block text-sm font-semibold text-slate-700">{{ field.label }}</span>
+                    {{ field }}
+                    {% if field.errors %}<span class="mt-1 block text-sm text-red-600">{{ field.errors|join:", " }}</span>{% endif %}
+                </label>
+            {% endfor %}
+            <button name="save_account" class="btn bg-skyline text-white hover:bg-blue-800">Save Email</button>
+        </form>
+    </div>
+    <div class="rounded-[2rem] bg-white p-8 shadow-sm ring-1 ring-black/5">
+        <h2 class="font-display text-4xl font-bold">Password</h2>
+        <p class="mt-2 text-slate-600">Passwords require uppercase, lowercase, a number, a symbol, and 11+ characters.</p>
+        <form method="post" class="mt-6 space-y-5">
+            {% csrf_token %}
+            {% for field in password_form %}
+                <label class="block">
+                    <span class="mb-2 block text-sm font-semibold text-slate-700">{{ field.label }}</span>
+                    {{ field }}
+                    {% if field.errors %}<span class="mt-1 block text-sm text-red-600">{{ field.errors|join:", " }}</span>{% endif %}
+                </label>
+            {% endfor %}
+            <button name="save_password" class="btn bg-cherry text-white hover:bg-rose-900">Save Password</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

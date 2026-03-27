@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}{{ recipe.title }} | Keepereaters{% endblock %}
+
+{% block content %}
+<section class="space-y-6">
+    <div class="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+        <div class="overflow-hidden rounded-[2rem] bg-white shadow-sm ring-1 ring-black/5">
+            {% if recipe.image_url %}
+                <img src="{{ recipe.image_url }}" alt="{{ recipe.title }}" class="h-full w-full object-cover">
+            {% else %}
+                <div class="flex h-full min-h-80 items-center justify-center bg-gradient-to-br from-cherry to-skyline text-7xl font-bold text-white">{{ recipe.title|slice:":1" }}</div>
+            {% endif %}
+        </div>
+        <div class="rounded-[2rem] bg-white p-8 shadow-sm ring-1 ring-black/5">
+            <div class="flex flex-wrap items-center gap-3">
+                <span class="badge border-0 bg-slate-100 px-4 py-3">{{ recipe.get_category_display }}</span>
+                <span class="badge border-0 bg-slate-900 px-4 py-3 text-white">{{ recipe.calories }} calories</span>
+                {% if recipe.source_url %}
+                    <a href="{{ recipe.source_url }}" class="badge border-0 bg-blue-100 px-4 py-3 text-skyline">Source recipe</a>
+                {% endif %}
+            </div>
+            <h1 class="mt-4 font-display text-5xl font-bold">{{ recipe.title }}</h1>
+            <p class="mt-4 text-lg leading-8 text-slate-600">{{ recipe.description }}</p>
+            <div class="mt-8 flex flex-wrap gap-3">
+                <a href="{% url 'recipe-edit' recipe.pk %}" class="btn bg-skyline text-white hover:bg-blue-800">Edit Recipe</a>
+                <a href="{% url 'meal-entry-create' %}?recipe={{ recipe.pk }}" class="btn border-slate-300 bg-white">Schedule It</a>
+                <a href="{% url 'recipe-delete' recipe.pk %}" class="btn bg-white text-red-700 ring-1 ring-red-200 hover:bg-red-50">Delete</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid gap-6 xl:grid-cols-[1fr_1fr_1fr_1fr]">
+        <div class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-black/5">
+            <h2 class="text-lg font-bold">Nutrition</h2>
+            <div class="mt-4 space-y-4">
+                <div class="macro-bar">
+                    <span>Carbs</span>
+                    <strong>{{ recipe.carbs_grams }}g</strong>
+                </div>
+                <div class="macro-bar">
+                    <span>Fat</span>
+                    <strong>{{ recipe.fat_grams }}g</strong>
+                </div>
+                <div class="macro-bar">
+                    <span>Protein</span>
+                    <strong>{{ recipe.protein_grams }}g</strong>
+                </div>
+                <div class="macro-pie" style="--carbs: {{ recipe.carbs_grams }}; --fat: {{ recipe.fat_grams }}; --protein: {{ recipe.protein_grams }};"></div>
+                <p class="text-xs text-slate-500">Pie chart proportions are based on the grams you entered for carbs, fat, and protein.</p>
+            </div>
+        </div>
+        <div class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-black/5 xl:col-span-1">
+            <h2 class="text-lg font-bold">Ingredients</h2>
+            <ul class="mt-4 list-disc space-y-2 pl-5 text-slate-700">
+                {% for ingredient in recipe.ingredients.all %}
+                    <li>{{ ingredient.text }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-black/5 xl:col-span-2">
+            <h2 class="text-lg font-bold">Recipe Steps</h2>
+            <ol class="mt-4 space-y-4">
+                {% for step in recipe.steps.all %}
+                    <li class="flex gap-4 rounded-2xl bg-slate-50 p-4">
+                        <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white">{{ forloop.counter }}</span>
+                        <p class="text-slate-700">{{ step.instruction }}</p>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+</section>
+{% endblock %}

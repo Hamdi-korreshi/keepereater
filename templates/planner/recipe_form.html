@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} | Keepereaters{% endblock %}
+
+{% block content %}
+<div class="mx-auto max-w-4xl rounded-[2rem] bg-white p-8 shadow-sm ring-1 ring-black/5">
+    <h1 class="font-display text-4xl font-bold">{{ title }}</h1>
+    <p class="mt-2 text-slate-600">Upload from device, add macros manually, and enter ingredients and steps line by line.</p>
+    <form method="post" enctype="multipart/form-data" class="mt-8 grid gap-5 md:grid-cols-2">
+        {% csrf_token %}
+        {% for field in form %}
+            <label class="block {% if field.name == 'description' or field.name == 'ingredients_text' or field.name == 'steps_text' %}md:col-span-2{% endif %}">
+                <span class="mb-2 block text-sm font-semibold text-slate-700">{{ field.label }}</span>
+                {{ field }}
+                {% if field.help_text %}<span class="mt-1 block text-xs text-slate-500">{{ field.help_text }}</span>{% endif %}
+                {% if field.errors %}<span class="mt-1 block text-sm text-red-600">{{ field.errors|join:", " }}</span>{% endif %}
+            </label>
+        {% endfor %}
+        <div class="md:col-span-2 flex flex-wrap gap-3">
+            <button class="btn bg-cherry text-white hover:bg-rose-900">Save Recipe</button>
+            {% if recipe %}
+                <a href="{{ recipe.get_absolute_url }}" class="btn border-slate-300 bg-white">Cancel</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+{% endblock %}
