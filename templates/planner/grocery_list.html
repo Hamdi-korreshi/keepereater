@@ -30,13 +30,27 @@
             </div>
             <div id="grocery-copy-source" class="mt-5 space-y-3">
                 {% for item in combined_items %}
-                    <div class="rounded-2xl bg-slate-50 px-4 py-3">{{ item.display }}</div>
+                    <div class="grocery-item rounded-2xl bg-slate-50 px-4 py-3">
+                        <span>{{ item.display }}</span>
+                        <button type="button" class="grocery-remove" aria-label="Remove item">Remove</button>
+                    </div>
                 {% empty %}
                     <p class="text-slate-500">Choose a date range to build your list.</p>
                 {% endfor %}
+            </div>
+            <div class="mt-6">
+                <h3 class="text-lg font-bold">Needs manual review</h3>
+                <p class="text-sm text-slate-500">These ingredients were kept separate because their format was less structured.</p>
+                <div class="mt-3 space-y-3">
                 {% for item in manual_items %}
-                    <div class="rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">{{ item }}</div>
+                    <div class="grocery-item grocery-item--manual rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3">
+                        <span>{{ item }}</span>
+                        <button type="button" class="grocery-remove" aria-label="Remove item">Remove</button>
+                    </div>
+                {% empty %}
+                    <p class="text-slate-500">Everything in this range could be merged automatically.</p>
                 {% endfor %}
+                </div>
             </div>
         </div>
 

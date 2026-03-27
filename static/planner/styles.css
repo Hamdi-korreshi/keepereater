@@ -4,6 +4,151 @@ textarea {
     width: 100%;
 }
 
+:root {
+    --ke-primary: #b91c1c;
+    --ke-secondary: #1d4ed8;
+    --ke-tertiary: #15803d;
+    --ke-surface: #fffaf5;
+    --ke-surface-strong: #ffffff;
+    --ke-border: rgba(23, 32, 51, 0.12);
+    --ke-text: #172033;
+    --ke-muted: #5f6b85;
+}
+
+[data-theme="keepereaters-dark"] {
+    --ke-primary: #ef4444;
+    --ke-secondary: #60a5fa;
+    --ke-tertiary: #34d399;
+    --ke-surface: #111827;
+    --ke-surface-strong: #172033;
+    --ke-border: rgba(148, 163, 184, 0.24);
+    --ke-text: #f8fafc;
+    --ke-muted: #cbd5e1;
+}
+
+body {
+    color: var(--ke-text);
+    background: var(--ke-surface);
+}
+
+input,
+select,
+textarea,
+.input,
+.select,
+.textarea,
+.file-input {
+    background: var(--ke-surface-strong) !important;
+    color: var(--ke-text) !important;
+    border-color: var(--ke-border) !important;
+    box-shadow: none;
+}
+
+[data-theme="keepereaters-dark"] .bg-white,
+[data-theme="keepereaters-dark"] .bg-white\/80,
+[data-theme="keepereaters-dark"] .bg-white\/10,
+[data-theme="keepereaters-dark"] .bg-white\/15,
+[data-theme="keepereaters-dark"] .bg-slate-50 {
+    background-color: var(--ke-surface-strong) !important;
+}
+
+[data-theme="keepereaters-dark"] .text-slate-500,
+[data-theme="keepereaters-dark"] .text-slate-600,
+[data-theme="keepereaters-dark"] .text-slate-700,
+[data-theme="keepereaters-dark"] .text-slate-900,
+[data-theme="keepereaters-dark"] .text-ink {
+    color: var(--ke-text) !important;
+}
+
+[data-theme="keepereaters-dark"] .hover\:bg-slate-100:hover,
+[data-theme="keepereaters-dark"] .hover\:bg-slate-50:hover {
+    background-color: rgba(96, 165, 250, 0.12) !important;
+}
+
+[data-theme="keepereaters-dark"] .border-slate-200,
+[data-theme="keepereaters-dark"] .border-slate-300,
+[data-theme="keepereaters-dark"] .ring-black\/5,
+[data-theme="keepereaters-dark"] .border-black\/5 {
+    border-color: var(--ke-border) !important;
+}
+
+[data-theme="keepereaters-dark"] .bg-blue-50 {
+    background-color: rgba(96, 165, 250, 0.14) !important;
+}
+
+[data-theme="keepereaters-dark"] .bg-green-50 {
+    background-color: rgba(52, 211, 153, 0.14) !important;
+}
+
+[data-theme="keepereaters-dark"] .bg-rose-50,
+[data-theme="keepereaters-dark"] .bg-red-50 {
+    background-color: rgba(239, 68, 68, 0.14) !important;
+}
+
+[data-theme="keepereaters-dark"] .bg-amber-50 {
+    background-color: rgba(245, 158, 11, 0.12) !important;
+}
+
+[data-theme="keepereaters-dark"] .border-amber-200 {
+    border-color: rgba(245, 158, 11, 0.28) !important;
+}
+
+[data-theme="keepereaters-dark"] .badge {
+    border-color: var(--ke-border) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #7b879c !important;
+}
+
+[data-theme="keepereaters-dark"] input::placeholder,
+[data-theme="keepereaters-dark"] textarea::placeholder {
+    color: #94a3b8 !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+.input:focus,
+.select:focus,
+.textarea:focus,
+.file-input:focus {
+    outline: none;
+    border-color: color-mix(in srgb, var(--ke-secondary) 55%, white) !important;
+    box-shadow: 0 0 0 4px rgba(29, 78, 216, 0.12) !important;
+}
+
+select option {
+    background: #ffffff;
+    color: var(--ke-text);
+}
+
+[data-theme="keepereaters-dark"] select option {
+    background: var(--ke-surface-strong);
+    color: var(--ke-text);
+}
+
+.btn.bg-cherry,
+.bg-cherry {
+    background-color: var(--ke-primary) !important;
+}
+
+.btn.bg-skyline,
+.bg-skyline {
+    background-color: var(--ke-secondary) !important;
+}
+
+.text-meadow,
+.bg-meadow {
+    color: var(--ke-tertiary);
+}
+
+.ring-black\/5,
+.border-black\/5 {
+    border-color: rgba(185, 28, 28, 0.08) !important;
+}
+
 .recipe-card {
     display: flex;
     min-height: 24rem;
@@ -13,16 +158,33 @@ textarea {
     box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
 }
 
+[data-theme="keepereaters-dark"] .recipe-card,
+[data-theme="keepereaters-dark"] .calendar-day {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+}
+
 .recipe-card--snack {
-    background: linear-gradient(180deg, #dcfce7 0%, #ffffff 40%);
+    background: linear-gradient(180deg, rgba(21, 128, 61, 0.14) 0%, #ffffff 40%);
 }
 
 .recipe-card--entree {
-    background: linear-gradient(180deg, #dbeafe 0%, #ffffff 40%);
+    background: linear-gradient(180deg, rgba(29, 78, 216, 0.14) 0%, #ffffff 40%);
 }
 
 .recipe-card--dessert {
-    background: linear-gradient(180deg, #ffe4e6 0%, #ffffff 40%);
+    background: linear-gradient(180deg, rgba(185, 28, 28, 0.14) 0%, #ffffff 40%);
+}
+
+[data-theme="keepereaters-dark"] .recipe-card--snack {
+    background: linear-gradient(180deg, rgba(52, 211, 153, 0.16) 0%, var(--ke-surface-strong) 48%);
+}
+
+[data-theme="keepereaters-dark"] .recipe-card--entree {
+    background: linear-gradient(180deg, rgba(96, 165, 250, 0.16) 0%, var(--ke-surface-strong) 48%);
+}
+
+[data-theme="keepereaters-dark"] .recipe-card--dessert {
+    background: linear-gradient(180deg, rgba(239, 68, 68, 0.16) 0%, var(--ke-surface-strong) 48%);
 }
 
 .recipe-card__image-wrap {
@@ -41,7 +203,7 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #9f1239, #1d4ed8);
+    background: linear-gradient(135deg, var(--ke-primary), var(--ke-secondary));
     font-size: 4rem;
     font-weight: 700;
     color: white;
@@ -60,13 +222,23 @@ textarea {
     color: #94a3b8;
 }
 
+[data-theme="keepereaters-dark"] .calendar-day {
+    background: var(--ke-surface-strong);
+    border-color: var(--ke-border);
+}
+
+[data-theme="keepereaters-dark"] .calendar-day--muted {
+    background: rgba(23, 32, 51, 0.75);
+    color: #94a3b8;
+}
+
 .calendar-chip {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
     border-radius: 999px;
-    background: linear-gradient(135deg, #1d4ed8, #0f172a);
+    background: linear-gradient(135deg, var(--ke-secondary), var(--ke-primary));
     padding: 0.5rem 0.75rem;
     font-size: 0.75rem;
     font-weight: 700;
@@ -82,6 +254,10 @@ textarea {
     font-size: 0.95rem;
 }
 
+[data-theme="keepereaters-dark"] .macro-bar {
+    background: rgba(255, 255, 255, 0.06);
+}
+
 .macro-pie {
     width: 12rem;
     height: 12rem;
@@ -89,9 +265,9 @@ textarea {
     border-radius: 999px;
     background:
         conic-gradient(
-            #1d4ed8 0 calc((var(--carbs) / (var(--carbs) + var(--fat) + var(--protein))) * 1turn),
-            #9f1239 calc((var(--carbs) / (var(--carbs) + var(--fat) + var(--protein))) * 1turn) calc(((var(--carbs) + var(--fat)) / (var(--carbs) + var(--fat) + var(--protein))) * 1turn),
-            #15803d calc(((var(--carbs) + var(--fat)) / (var(--carbs) + var(--fat) + var(--protein))) * 1turn) 1turn
+            var(--ke-secondary) 0 calc((var(--carbs) / (var(--carbs) + var(--fat) + var(--protein))) * 1turn),
+            var(--ke-primary) calc((var(--carbs) / (var(--carbs) + var(--fat) + var(--protein))) * 1turn) calc(((var(--carbs) + var(--fat)) / (var(--carbs) + var(--fat) + var(--protein))) * 1turn),
+            var(--ke-tertiary) calc(((var(--carbs) + var(--fat)) / (var(--carbs) + var(--fat) + var(--protein))) * 1turn) 1turn
         );
     position: relative;
 }
@@ -102,4 +278,39 @@ textarea {
     inset: 22%;
     border-radius: 999px;
     background: white;
+}
+
+[data-theme="keepereaters-dark"] .macro-pie::after {
+    background: var(--ke-surface-strong);
+}
+
+.grocery-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.grocery-remove {
+    border-radius: 999px;
+    border: 1px solid rgba(23, 32, 51, 0.12);
+    background: rgba(255, 255, 255, 0.8);
+    padding: 0.45rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--ke-text);
+}
+
+.grocery-remove:hover {
+    border-color: rgba(185, 28, 28, 0.2);
+    background: rgba(185, 28, 28, 0.08);
+}
+
+[data-theme="keepereaters-dark"] .grocery-remove {
+    border-color: var(--ke-border);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="keepereaters-dark"] .grocery-remove:hover {
+    background: rgba(96, 165, 250, 0.12);
 }

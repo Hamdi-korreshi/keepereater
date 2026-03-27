@@ -95,9 +95,29 @@ def recipe_delete(request, pk):
 
 @login_required
 def calendar_view(request):
+    view_mode = request.GET.get("view", "month")
+    date_param = request.GET.get("date")
     month_param = request.GET.get("month")
-    selected_date = datetime.strptime(month_param, "%Y-%m").date().replace(day=1) if month_param else date.today().replace(day=1)
-    first_day, last_day, display_start, display_end = month_bounds(selected_date)
+    if date_param:
+        selected_date = datetime.strptime(date_param, "%Y-%m-%d").date()
+    elif month_param:
+        selected_date = datetime.strptime(month_param, "%Y-%m").date().replace(day=1)
+    else:
+        selected_date = date.today()
+
+    if view_mode == "week":
+        period_start, period_end = week_bounds(selected_date)
+        display_start, display_end = period_start, period_end
+        title = f"{period_start.strftime('%b %d')} - {period_end.strftime('%b %d, %Y')}"
+        prev_value = (period_start - timedelta(days=7)).isoformat()
+        next_value = (period_start + timedelta(days=7)).isoformat()
+    else:
+        selected_date = selected_date.replace(day=1)
+        period_start, period_end, display_start, display_end = month_bounds(selected_date)
+        title = selected_date.strftime("%B %Y")
+        prev_value = (period_start - timedelta(days=1)).strftime("%Y-%m")
+        next_value = (period_end + timedelta(days=1)).strftime("%Y-%m")
+
     entries = (
         request.user.meal_entries.filter(date__range=(display_start, display_end))
         .select_related("recipe")
@@ -113,22 +133,27 @@ def calendar_view(request):
         days.append(
             {
                 "date": current,
-                "in_month": current.month == selected_date.month,
+                "in_month": view_mode == "week" or current.month == selected_date.month,
                 "entries": entries_by_day[current],
             }
         )
         current += timedelta(days=1)
 
-    month_entries = request.user.meal_entries.filter(date__range=(first_day, last_day)).select_related("recipe")
+    month_entries = request.user.meal_entries.filter(
+        date__range=month_bounds(date.today().replace(day=1))[:2]
+    ).select_related("recipe")
     week_start, week_end = week_bounds(date.today())
     week_entries = request.user.meal_entries.filter(date__range=(week_start, week_end)).select_related("recipe")
+    calendar_rows = [days[index:index + 7] for index in range(0, len(days), 7)]
     context = {
         "selected_date": selected_date,
-        "days": days,
+        "calendar_rows": calendar_rows,
+        "view_mode": view_mode,
+        "calendar_title": title,
         "month_calories": calorie_totals(month_entries),
         "week_calories": calorie_totals(week_entries),
-        "prev_month": (first_day - timedelta(days=1)).strftime("%Y-%m"),
-        "next_month": (last_day + timedelta(days=1)).strftime("%Y-%m"),
+        "prev_value": prev_value,
+        "next_value": next_value,
     }
     return render(request, "planner/calendar.html", context)
 

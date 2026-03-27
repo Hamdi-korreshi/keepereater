@@ -17,11 +17,15 @@ UNIT_ALIASES = {
     "lbs": "lb",
     "pound": "lb",
     "pounds": "lb",
+    "half": "",
+    "halves": "",
     "oz": "oz",
     "ounce": "oz",
     "ounces": "oz",
     "clove": "clove",
     "cloves": "clove",
+    "pinch": "pinch",
+    "pinches": "pinch",
 }
 
 
@@ -41,6 +45,21 @@ def parse_amount(token):
         return None
 
 
+def parse_leading_amount(parts):
+    if not parts:
+        return None, 0
+
+    first = parse_amount(parts[0])
+    if first is None:
+        return None, 0
+
+    if len(parts) > 1:
+        second = parse_amount(parts[1])
+        if second is not None and "/" in parts[1]:
+            return first + second, 2
+    return first, 1
+
+
 def normalize_ingredient(text):
     text = " ".join(text.strip().split())
     quantity = None
@@ -48,9 +67,9 @@ def normalize_ingredient(text):
     normalized_name = text.lower()
     parts = text.split()
     if parts:
-        quantity = parse_amount(parts[0])
+        quantity, consumed = parse_leading_amount(parts)
         if quantity is not None:
-            parts = parts[1:]
+            parts = parts[consumed:]
         if parts and parts[0].lower() in UNIT_ALIASES:
             unit = UNIT_ALIASES[parts[0].lower()]
             parts = parts[1:]
@@ -84,7 +103,7 @@ def build_shopping_list(entries):
     for entry in entries.select_related("recipe").prefetch_related("recipe__ingredients"):
         for ingredient in entry.recipe.ingredients.all():
             scaled_quantity = ingredient.quantity * entry.quantity if ingredient.quantity is not None else None
-            if scaled_quantity is not None and ingredient.unit and ingredient.normalized_name:
+            if scaled_quantity is not None and ingredient.normalized_name:
                 key = (ingredient.normalized_name, ingredient.unit)
                 combined[key]["quantity"] += scaled_quantity
                 combined[key]["unit"] = ingredient.unit
@@ -93,7 +112,9 @@ def build_shopping_list(entries):
                 manual_items.append(f"{ingredient.text} ({entry.recipe.title} x{entry.quantity})")
     combined_items = [
         {
-            "display": f"{format_decimal(item['quantity'])} {item['unit']} {item['name']}".strip(),
+            "display": " ".join(
+                part for part in [format_decimal(item["quantity"]), item["unit"], item["name"]] if part
+            ),
             "name": item["name"],
         }
         for item in combined.values()

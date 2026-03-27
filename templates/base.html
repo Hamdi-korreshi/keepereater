@@ -5,6 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Keepereaters{% endblock %}</title>
+    <script>
+        (function () {
+            const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            document.documentElement.setAttribute("data-theme", prefersDark ? "keepereaters-dark" : "light");
+        }());
+    </script>
     <link rel="stylesheet" href="{% static 'planner/tailwind.css' %}">
     <link rel="stylesheet" href="{% static 'planner/styles.css' %}">
     {% block extra_head %}{% endblock %}
@@ -44,6 +50,19 @@
         </main>
     </div>
     <script src="{% static 'planner/app.js' %}"></script>
+    <script>
+        (function () {
+            const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+            const syncTheme = (event) => {
+                document.documentElement.setAttribute("data-theme", event.matches ? "keepereaters-dark" : "light");
+            };
+            if (typeof mediaQuery.addEventListener === "function") {
+                mediaQuery.addEventListener("change", syncTheme);
+            } else if (typeof mediaQuery.addListener === "function") {
+                mediaQuery.addListener(syncTheme);
+            }
+        }());
+    </script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
