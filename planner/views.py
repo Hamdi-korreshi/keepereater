@@ -98,21 +98,23 @@ def calendar_view(request):
     view_mode = request.GET.get("view", "month")
     date_param = request.GET.get("date")
     month_param = request.GET.get("month")
+    today = date.today()
     if date_param:
-        selected_date = datetime.strptime(date_param, "%Y-%m-%d").date()
+        focus_date = datetime.strptime(date_param, "%Y-%m-%d").date()
     elif month_param:
-        selected_date = datetime.strptime(month_param, "%Y-%m").date().replace(day=1)
+        focus_date = datetime.strptime(month_param, "%Y-%m").date().replace(day=1)
     else:
-        selected_date = date.today()
+        focus_date = today
 
     if view_mode == "week":
-        period_start, period_end = week_bounds(selected_date)
+        period_start, period_end = week_bounds(focus_date)
         display_start, display_end = period_start, period_end
         title = f"{period_start.strftime('%b %d')} - {period_end.strftime('%b %d, %Y')}"
         prev_value = (period_start - timedelta(days=7)).isoformat()
         next_value = (period_start + timedelta(days=7)).isoformat()
+        selected_date = focus_date
     else:
-        selected_date = selected_date.replace(day=1)
+        selected_date = focus_date.replace(day=1)
         period_start, period_end, display_start, display_end = month_bounds(selected_date)
         title = selected_date.strftime("%B %Y")
         prev_value = (period_start - timedelta(days=1)).strftime("%Y-%m")
@@ -147,6 +149,7 @@ def calendar_view(request):
     calendar_rows = [days[index:index + 7] for index in range(0, len(days), 7)]
     context = {
         "selected_date": selected_date,
+        "today": today,
         "calendar_rows": calendar_rows,
         "view_mode": view_mode,
         "calendar_title": title,

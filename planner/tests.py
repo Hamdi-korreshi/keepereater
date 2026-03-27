@@ -87,3 +87,37 @@ class IngredientParsingTests(TestCase):
         )
 
         self.assertContains(response, "3 cup all-purpose flour")
+
+    def test_grocery_list_reparses_stale_fraction_data_from_text(self):
+        user = User.objects.create_user(
+            username="staleuser",
+            email="stale@example.com",
+            password="StalePass!123",
+        )
+        recipe = Recipe.objects.create(
+            owner=user,
+            title="Legacy Recipe",
+            description="test",
+            category="snack",
+            calories=100,
+            carbs_grams="1",
+            fat_grams="1",
+            protein_grams="1",
+        )
+        Ingredient.objects.create(
+            recipe=recipe,
+            text="2 1/2 tsp baking powder",
+            normalized_name="1/2 tsp baking powder",
+            quantity="2.0",
+            unit="",
+        )
+        MealEntry.objects.create(user=user, recipe=recipe, date="2026-03-27", slot="breakfast", quantity="1.0")
+        MealEntry.objects.create(user=user, recipe=recipe, date="2026-03-28", slot="snack", quantity="1.0")
+
+        self.client.login(username="staleuser", password="StalePass!123")
+        response = self.client.get(
+            reverse("grocery-list"),
+            {"start_date": "2026-03-27", "end_date": "2026-03-28"},
+        )
+
+        self.assertContains(response, "5 tsp baking powder")

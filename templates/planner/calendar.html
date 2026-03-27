@@ -33,7 +33,7 @@
             <div class="flex flex-wrap gap-3">
                 <div class="join">
                     <a href="?view=month&month={{ selected_date|date:'Y-m' }}" class="btn join-item {% if view_mode == 'month' %}bg-skyline text-white{% else %}border-slate-300 bg-white{% endif %}">Month</a>
-                    <a href="?view=week&date={{ selected_date|date:'Y-m-d' }}" class="btn join-item {% if view_mode == 'week' %}bg-skyline text-white{% else %}border-slate-300 bg-white{% endif %}">Week</a>
+                    <a href="?view=week&date={% if view_mode == 'week' %}{{ selected_date|date:'Y-m-d' }}{% else %}{{ today|date:'Y-m-d' }}{% endif %}" class="btn join-item {% if view_mode == 'week' %}bg-skyline text-white{% else %}border-slate-300 bg-white{% endif %}">Week</a>
                 </div>
                 {% if view_mode == 'week' %}
                     <a href="?view=week&date={{ prev_value }}" class="btn border-slate-300 bg-white">Previous</a>

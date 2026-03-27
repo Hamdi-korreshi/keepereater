@@ -102,12 +102,13 @@ def build_shopping_list(entries):
     manual_items = []
     for entry in entries.select_related("recipe").prefetch_related("recipe__ingredients"):
         for ingredient in entry.recipe.ingredients.all():
-            scaled_quantity = ingredient.quantity * entry.quantity if ingredient.quantity is not None else None
-            if scaled_quantity is not None and ingredient.normalized_name:
-                key = (ingredient.normalized_name, ingredient.unit)
+            normalized = normalize_ingredient(ingredient.text)
+            scaled_quantity = normalized["quantity"] * entry.quantity if normalized["quantity"] is not None else None
+            if scaled_quantity is not None and normalized["normalized_name"]:
+                key = (normalized["normalized_name"], normalized["unit"])
                 combined[key]["quantity"] += scaled_quantity
-                combined[key]["unit"] = ingredient.unit
-                combined[key]["name"] = ingredient.normalized_name
+                combined[key]["unit"] = normalized["unit"]
+                combined[key]["name"] = normalized["normalized_name"]
             else:
                 manual_items.append(f"{ingredient.text} ({entry.recipe.title} x{entry.quantity})")
     combined_items = [
